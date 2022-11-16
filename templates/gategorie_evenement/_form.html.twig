@@ -1,0 +1,31 @@
+
+<style>  .form-error {color:red;}
+
+
+    
+</style>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+<div class="card-body">
+<form>
+<div class="col-md-3">
+
+<div class="row">
+        <div class="form-group">
+            <label class="bmd-label-floating">    {{ form_label(form.nom) }}
+            </label>
+            <input placeholder="Nom de gategorie"  type="text" class="form-control" {{ form_widget(form.nom) }}
+            <div class="form-error">
+                {{ form_errors(form.nom) }}
+        </div>
+    </div>
+    </div>
+
+
+    </div>
+<div class="col-md-3">
+</div>
+<br>
+    {{ form_widget(form) }}
+    <button class="btn btn-primary pull-right">{{ button_label|default('Save') }}</button>
+</form>
+{{ form_end(form) }}
