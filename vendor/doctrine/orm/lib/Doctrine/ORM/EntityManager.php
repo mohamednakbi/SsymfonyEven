@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\ORM;
 
+use BackedEnum;
 use BadMethodCallException;
 use Doctrine\Common\Cache\Psr6\CacheAdapter;
 use Doctrine\Common\EventManager;
+use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
@@ -17,6 +19,8 @@ use Doctrine\ORM\Exception\InvalidHydrationMode;
 use Doctrine\ORM\Exception\MismatchedEventManager;
 use Doctrine\ORM\Exception\MissingIdentifierField;
 use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
+use Doctrine\ORM\Exception\NotSupported;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\Exception\UnrecognizedIdentifierFields;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
@@ -31,7 +35,7 @@ use InvalidArgumentException;
 use Throwable;
 
 use function array_keys;
-use function call_user_func;
+use function class_exists;
 use function get_debug_type;
 use function gettype;
 use function is_array;
@@ -40,6 +44,7 @@ use function is_object;
 use function is_string;
 use function ltrim;
 use function sprintf;
+use function strpos;
 
 /**
  * The EntityManager is the central access point to ORM functionality.
@@ -49,24 +54,26 @@ use function sprintf;
  * the static create() method. The quickest way to obtain a fully
  * configured EntityManager is:
  *
- *     use Doctrine\ORM\Tools\Setup;
+ *     use Doctrine\ORM\Tools\ORMSetup;
  *     use Doctrine\ORM\EntityManager;
  *
- *     $paths = array('/path/to/entity/mapping/files');
+ *     $paths = ['/path/to/entity/mapping/files'];
  *
- *     $config = Setup::createAnnotationMetadataConfiguration($paths);
- *     $dbParams = array('driver' => 'pdo_sqlite', 'memory' => true);
+ *     $config = ORMSetup::createAttributeMetadataConfiguration($paths);
+ *     $dbParams = ['driver' => 'pdo_sqlite', 'memory' => true];
  *     $entityManager = EntityManager::create($dbParams, $config);
  *
  * For more information see
- * {@link http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/configuration.html}
+ * {@link http://docs.doctrine-project.org/projects/doctrine-orm/en/stable/reference/configuration.html}
  *
  * You should never attempt to inherit from the EntityManager: Inheritance
  * is not a valid extension point for the EntityManager. Instead you
  * should take a look at the {@see \Doctrine\ORM\Decorator\EntityManagerDecorator}
  * and wrap your entity manager in a decorator.
+ *
+ * @final
  */
-/* final */class EntityManager implements EntityManagerInterface
+class EntityManager implements EntityManagerInterface
 {
     /**
      * The used Configuration.
@@ -149,11 +156,15 @@ use function sprintf;
      * Creates a new EntityManager that operates on the given database connection
      * and uses the given Configuration and EventManager implementations.
      */
-    protected function __construct(Connection $conn, Configuration $config, EventManager $eventManager)
+    public function __construct(Connection $conn, Configuration $config)
     {
+        if (! $config->getMetadataDriverImpl()) {
+            throw MissingMappingDriverImplementation::create();
+        }
+
         $this->conn         = $conn;
         $this->config       = $config;
-        $this->eventManager = $eventManager;
+        $this->eventManager = $conn->getEventManager();
 
         $metadataFactoryClassName = $config->getClassMetadataFactoryName();
 
@@ -236,7 +247,7 @@ use function sprintf;
         $this->conn->beginTransaction();
 
         try {
-            $return = call_user_func($func, $this);
+            $return = $func($this);
 
             $this->flush();
             $this->conn->commit();
@@ -432,11 +443,14 @@ use function sprintf;
         }
 
         foreach ($id as $i => $value) {
-            if (is_object($value) && $this->metadataFactory->hasMetadataFor(ClassUtils::getClass($value))) {
-                $id[$i] = $this->unitOfWork->getSingleIdentifierValue($value);
+            if (is_object($value)) {
+                $className = ClassUtils::getClass($value);
+                if ($this->metadataFactory->hasMetadataFor($className)) {
+                    $id[$i] = $this->unitOfWork->getSingleIdentifierValue($value);
 
-                if ($id[$i] === null) {
-                    throw ORMInvalidArgumentException::invalidIdentifierBindingEntity();
+                    if ($id[$i] === null) {
+                        throw ORMInvalidArgumentException::invalidIdentifierBindingEntity($className);
+                    }
                 }
             }
         }
@@ -448,7 +462,12 @@ use function sprintf;
                 throw MissingIdentifierField::fromFieldAndClass($identifier, $class->name);
             }
 
-            $sortedId[$identifier] = $id[$identifier];
+            if ($id[$identifier] instanceof BackedEnum) {
+                $sortedId[$identifier] = $id[$identifier]->value;
+            } else {
+                $sortedId[$identifier] = $id[$identifier];
+            }
+
             unset($id[$identifier]);
         }
 
@@ -778,11 +797,39 @@ use function sprintf;
      * @return ObjectRepository|EntityRepository The repository class.
      * @psalm-return EntityRepository<T>
      *
-     * @template T
+     * @template T of object
      */
     public function getRepository($entityName)
     {
-        return $this->repositoryFactory->getRepository($this, $entityName);
+        if (strpos($entityName, ':') !== false) {
+            if (class_exists(PersistentObject::class)) {
+                Deprecation::trigger(
+                    'doctrine/orm',
+                    'https://github.com/doctrine/orm/issues/8818',
+                    'Short namespace aliases such as "%s" are deprecated and will be removed in Doctrine ORM 3.0.',
+                    $entityName
+                );
+            } else {
+                NotSupported::createForPersistence3(sprintf(
+                    'Using short namespace alias "%s" when calling %s',
+                    $entityName,
+                    __METHOD__
+                ));
+            }
+        }
+
+        $repository = $this->repositoryFactory->getRepository($this, $entityName);
+        if (! $repository instanceof EntityRepository) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/pull/9533',
+                'Not returning an instance of %s from %s::getRepository() is deprecated and will cause a TypeError on 3.0.',
+                EntityRepository::class,
+                get_debug_type($this->repositoryFactory)
+            );
+        }
+
+        return $repository;
     }
 
     /**
@@ -917,13 +964,9 @@ use function sprintf;
      */
     public static function create($connection, Configuration $config, ?EventManager $eventManager = null)
     {
-        if (! $config->getMetadataDriverImpl()) {
-            throw MissingMappingDriverImplementation::create();
-        }
-
         $connection = static::createConnection($connection, $config, $eventManager);
 
-        return new EntityManager($connection, $config, $connection->getEventManager());
+        return new EntityManager($connection, $config);
     }
 
     /**

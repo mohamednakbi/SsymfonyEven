@@ -62,6 +62,10 @@ return [[
 '[C]Symfony%5CBundle%5CFrameworkBundle%5CController%5CAbstractController%23addLink' => 1,
 'Symfony%5CBundle%5CFrameworkBundle%5CController%5CAbstractController%24container' => 0,
 '[C]Symfony%5CBundle%5CFrameworkBundle%5CController%5CAbstractController%24container' => 1,
+'App%5CController%5CAdminController' => 0,
+'[C]App%5CController%5CAdminController' => 1,
+'App%5CController%5CAdminController%23index' => 0,
+'[C]App%5CController%5CAdminController%23index' => 1,
 'App%5CController%5CEvenementController' => 0,
 '[C]App%5CController%5CEvenementController' => 1,
 'App%5CController%5CEvenementController%23index' => 0,
@@ -74,6 +78,12 @@ return [[
 '[C]App%5CController%5CEvenementController%23edit' => 1,
 'App%5CController%5CEvenementController%23delete' => 0,
 '[C]App%5CController%5CEvenementController%23delete' => 1,
+'App%5CController%5CEvenementController%23reclamation_stat' => 2,
+'[C]App%5CController%5CEvenementController%23reclamation_stat' => 1,
+'App%5CController%5CEvenementController%23showMap' => 3,
+'[C]App%5CController%5CEvenementController%23showMap' => 1,
+'App%5CController%5CEvenementController%23pdf' => 4,
+'[C]App%5CController%5CEvenementController%23pdf' => 1,
 'App%5CController%5CGategorieEvenementController' => 0,
 '[C]App%5CController%5CGategorieEvenementController' => 1,
 'App%5CController%5CGategorieEvenementController%23index' => 0,
@@ -86,13 +96,43 @@ return [[
 '[C]App%5CController%5CGategorieEvenementController%23edit' => 1,
 'App%5CController%5CGategorieEvenementController%23delete' => 0,
 '[C]App%5CController%5CGategorieEvenementController%23delete' => 1,
+'App%5CController%5CGategorieEvenementController%23listCandidats' => 5,
+'[C]App%5CController%5CGategorieEvenementController%23listCandidats' => 1,
+'App%5CController%5CIndexController' => 0,
+'[C]App%5CController%5CIndexController' => 1,
+'App%5CController%5CIndexController%23index' => 0,
+'[C]App%5CController%5CIndexController%23index' => 1,
+'App%5CController%5CIndexController%23search' => 0,
+'[C]App%5CController%5CIndexController%23search' => 1,
+'App%5CController%5CReclamationController' => 0,
+'[C]App%5CController%5CReclamationController' => 1,
+'App%5CController%5CReclamationController%23index' => 0,
+'[C]App%5CController%5CReclamationController%23index' => 1,
+'App%5CController%5CReclamationController%23new' => 0,
+'[C]App%5CController%5CReclamationController%23new' => 1,
+'App%5CController%5CReclamationController%23show' => 0,
+'[C]App%5CController%5CReclamationController%23show' => 1,
+'App%5CController%5CReclamationController%23edit' => 0,
+'[C]App%5CController%5CReclamationController%23edit' => 1,
+'App%5CController%5CReclamationController%23delete' => 0,
+'[C]App%5CController%5CReclamationController%23delete' => 1,
+'App%5CController%5CReservationController' => 0,
+'[C]App%5CController%5CReservationController' => 1,
+'App%5CController%5CReservationController%23index' => 0,
+'[C]App%5CController%5CReservationController%23index' => 1,
+'App%5CController%5CReservationController%23new' => 0,
+'[C]App%5CController%5CReservationController%23new' => 1,
+'App%5CController%5CReservationController%23edit' => 0,
+'[C]App%5CController%5CReservationController%23edit' => 1,
+'App%5CController%5CReservationController%23delete' => 0,
+'[C]App%5CController%5CReservationController%23delete' => 1,
 'App%5CController%5CTemplateController' => 0,
 '[C]App%5CController%5CTemplateController' => 1,
-'App%5CController%5CTemplateController%23index' => 2,
+'App%5CController%5CTemplateController%23index' => 6,
 '[C]App%5CController%5CTemplateController%23index' => 1,
-'App%5CController%5CTemplateController%23indexfront' => 3,
+'App%5CController%5CTemplateController%23indexfront' => 7,
 '[C]App%5CController%5CTemplateController%23indexfront' => 1,
-'App%5CEntity%5CEvenement' => 4,
+'App%5CEntity%5CEvenement' => 0,
 '[C]App%5CEntity%5CEvenement' => 1,
 'App%5CEntity%5CEvenement%23getImage' => 0,
 '[C]App%5CEntity%5CEvenement%23getImage' => 1,
@@ -124,23 +164,23 @@ return [[
 '[C]App%5CEntity%5CEvenement%23getGatName' => 1,
 'App%5CEntity%5CEvenement%23setGatName' => 0,
 '[C]App%5CEntity%5CEvenement%23setGatName' => 1,
-'App%5CEntity%5CEvenement%24id' => 5,
+'App%5CEntity%5CEvenement%24id' => 0,
 '[C]App%5CEntity%5CEvenement%24id' => 1,
-'App%5CEntity%5CEvenement%24titre' => 6,
+'App%5CEntity%5CEvenement%24titre' => 8,
 '[C]App%5CEntity%5CEvenement%24titre' => 1,
-'App%5CEntity%5CEvenement%24description' => 7,
+'App%5CEntity%5CEvenement%24description' => 9,
 '[C]App%5CEntity%5CEvenement%24description' => 1,
-'App%5CEntity%5CEvenement%24lieux' => 8,
+'App%5CEntity%5CEvenement%24lieux' => 10,
 '[C]App%5CEntity%5CEvenement%24lieux' => 1,
-'App%5CEntity%5CEvenement%24dateDebut' => 9,
+'App%5CEntity%5CEvenement%24dateDebut' => 11,
 '[C]App%5CEntity%5CEvenement%24dateDebut' => 1,
-'App%5CEntity%5CEvenement%24dateFin' => 10,
-'[C]App%5CEntity%5CEvenement%24dateFin' => 1,
-'App%5CEntity%5CEvenement%24gatName' => 11,
+'App%5CEntity%5CEvenement%24datefin' => 12,
+'[C]App%5CEntity%5CEvenement%24datefin' => 1,
+'App%5CEntity%5CEvenement%24gatName' => 0,
 '[C]App%5CEntity%5CEvenement%24gatName' => 1,
-'App%5CEntity%5CEvenement%24image' => 12,
+'App%5CEntity%5CEvenement%24image' => 13,
 '[C]App%5CEntity%5CEvenement%24image' => 1,
-'App%5CEntity%5CGategorieEvenement' => 13,
+'App%5CEntity%5CGategorieEvenement' => 14,
 '[C]App%5CEntity%5CGategorieEvenement' => 1,
 'App%5CEntity%5CGategorieEvenement%23getId' => 0,
 '[C]App%5CEntity%5CGategorieEvenement%23getId' => 1,
@@ -148,10 +188,72 @@ return [[
 '[C]App%5CEntity%5CGategorieEvenement%23getNom' => 1,
 'App%5CEntity%5CGategorieEvenement%23setNom' => 0,
 '[C]App%5CEntity%5CGategorieEvenement%23setNom' => 1,
-'App%5CEntity%5CGategorieEvenement%24id' => 5,
+'App%5CEntity%5CGategorieEvenement%24id' => 15,
 '[C]App%5CEntity%5CGategorieEvenement%24id' => 1,
-'App%5CEntity%5CGategorieEvenement%24nom' => 14,
+'App%5CEntity%5CGategorieEvenement%24nom' => 16,
 '[C]App%5CEntity%5CGategorieEvenement%24nom' => 1,
+'App%5CEntity%5CReclamation' => 0,
+'[C]App%5CEntity%5CReclamation' => 1,
+'App%5CEntity%5CReclamation%23getId' => 0,
+'[C]App%5CEntity%5CReclamation%23getId' => 1,
+'App%5CEntity%5CReclamation%23getEvaluation' => 0,
+'[C]App%5CEntity%5CReclamation%23getEvaluation' => 1,
+'App%5CEntity%5CReclamation%23setEvaluation' => 0,
+'[C]App%5CEntity%5CReclamation%23setEvaluation' => 1,
+'App%5CEntity%5CReclamation%23getCommentaire' => 0,
+'[C]App%5CEntity%5CReclamation%23getCommentaire' => 1,
+'App%5CEntity%5CReclamation%23setCommentaire' => 0,
+'[C]App%5CEntity%5CReclamation%23setCommentaire' => 1,
+'App%5CEntity%5CReclamation%23getReservation' => 0,
+'[C]App%5CEntity%5CReclamation%23getReservation' => 1,
+'App%5CEntity%5CReclamation%23setReservation' => 0,
+'[C]App%5CEntity%5CReclamation%23setReservation' => 1,
+'App%5CEntity%5CReclamation%24id' => 0,
+'[C]App%5CEntity%5CReclamation%24id' => 1,
+'App%5CEntity%5CReclamation%24evaluation' => 17,
+'[C]App%5CEntity%5CReclamation%24evaluation' => 1,
+'App%5CEntity%5CReclamation%24commentaire' => 18,
+'[C]App%5CEntity%5CReclamation%24commentaire' => 1,
+'App%5CEntity%5CReclamation%24reservation' => 18,
+'[C]App%5CEntity%5CReclamation%24reservation' => 1,
+'App%5CEntity%5CReservation' => 0,
+'[C]App%5CEntity%5CReservation' => 1,
+'App%5CEntity%5CReservation%23getId' => 0,
+'[C]App%5CEntity%5CReservation%23getId' => 1,
+'App%5CEntity%5CReservation%23getService' => 0,
+'[C]App%5CEntity%5CReservation%23getService' => 1,
+'App%5CEntity%5CReservation%23setService' => 0,
+'[C]App%5CEntity%5CReservation%23setService' => 1,
+'App%5CEntity%5CReservation%23getDate' => 0,
+'[C]App%5CEntity%5CReservation%23getDate' => 1,
+'App%5CEntity%5CReservation%23setDate' => 0,
+'[C]App%5CEntity%5CReservation%23setDate' => 1,
+'App%5CEntity%5CReservation%23getDescription' => 0,
+'[C]App%5CEntity%5CReservation%23getDescription' => 1,
+'App%5CEntity%5CReservation%23setDescription' => 0,
+'[C]App%5CEntity%5CReservation%23setDescription' => 1,
+'App%5CEntity%5CReservation%23getEtat' => 0,
+'[C]App%5CEntity%5CReservation%23getEtat' => 1,
+'App%5CEntity%5CReservation%23setEtat' => 0,
+'[C]App%5CEntity%5CReservation%23setEtat' => 1,
+'App%5CEntity%5CReservation%23getClient' => 0,
+'[C]App%5CEntity%5CReservation%23getClient' => 1,
+'App%5CEntity%5CReservation%23setClient' => 0,
+'[C]App%5CEntity%5CReservation%23setClient' => 1,
+'App%5CEntity%5CReservation%23__toString' => 0,
+'[C]App%5CEntity%5CReservation%23__toString' => 1,
+'App%5CEntity%5CReservation%24id' => 0,
+'[C]App%5CEntity%5CReservation%24id' => 1,
+'App%5CEntity%5CReservation%24service' => 18,
+'[C]App%5CEntity%5CReservation%24service' => 1,
+'App%5CEntity%5CReservation%24date' => 0,
+'[C]App%5CEntity%5CReservation%24date' => 1,
+'App%5CEntity%5CReservation%24description' => 18,
+'[C]App%5CEntity%5CReservation%24description' => 1,
+'App%5CEntity%5CReservation%24etat' => 0,
+'[C]App%5CEntity%5CReservation%24etat' => 1,
+'App%5CEntity%5CReservation%24client' => 18,
+'[C]App%5CEntity%5CReservation%24client' => 1,
 'Doctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController' => 0,
 '[C]Doctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController' => 1,
 'Doctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%23__construct' => 0,
@@ -590,6 +692,14 @@ return [[
 '[C]Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23generateFilterConditionSQL' => 1,
 'Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23getSQLResultCasing' => 0,
 '[C]Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23getSQLResultCasing' => 1,
+'Endroid%5CQrCodeBundle%5CController%5CGenerateController' => 0,
+'[C]Endroid%5CQrCodeBundle%5CController%5CGenerateController' => 1,
+'Endroid%5CQrCodeBundle%5CController%5CGenerateController%23__construct' => 0,
+'[C]Endroid%5CQrCodeBundle%5CController%5CGenerateController%23__construct' => 1,
+'Endroid%5CQrCodeBundle%5CController%5CGenerateController%23__invoke' => 0,
+'[C]Endroid%5CQrCodeBundle%5CController%5CGenerateController%23__invoke' => 1,
+'Endroid%5CQrCodeBundle%5CController%5CGenerateController%24builderRegistry' => 0,
+'[C]Endroid%5CQrCodeBundle%5CController%5CGenerateController%24builderRegistry' => 1,
 'Symfony%5CBundle%5CFrameworkBundle%5CController%5CRedirectController' => 0,
 '[C]Symfony%5CBundle%5CFrameworkBundle%5CController%5CRedirectController' => 1,
 'Symfony%5CBundle%5CFrameworkBundle%5CController%5CRedirectController%23__construct' => 0,
@@ -700,8 +810,116 @@ return [[
 ], [
 
 0 => [],
-1 => 1668476496,
+1 => 1670445833,
 2 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        ],
+        null,
+        [
+            'Symfony\\Component\\Routing\\Annotation\\Route' => [
+                'path' => [
+                    '/e/statmohamed',
+                ],
+                'name' => [
+                    'statmohamed',
+                ],
+                'methods' => [
+                    [
+                        'GET',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+3 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        ],
+        null,
+        [
+            'Symfony\\Component\\Routing\\Annotation\\Route' => [
+                'path' => [
+                    '/r/{id}',
+                ],
+                'name' => [
+                    'showmapevenement',
+                ],
+                'methods' => [
+                    [
+                        'GET',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+4 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        ],
+        null,
+        [
+            'Symfony\\Component\\Routing\\Annotation\\Route' => [
+                'path' => [
+                    '/evenement/pdf',
+                ],
+                'name' => [
+                    'pdf0',
+                ],
+                'methods' => [
+                    [
+                        'GET',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+5 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+        ],
+        null,
+        [
+            'Symfony\\Component\\Routing\\Annotation\\Route' => [
+                'path' => [
+                    '/gategorie/pdfsnappy',
+                ],
+                'name' => [
+                    'pdfsnappy',
+                ],
+                'methods' => [
+                    [
+                        'GET',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+6 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
             clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
@@ -723,7 +941,7 @@ return [[
         []
     );
 },
-3 => static function () {
+7 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
             clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
@@ -745,7 +963,151 @@ return [[
         []
     );
 },
-4 => static function () {
+8 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'Le titre de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+9 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'La description de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+10 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'Le lieux de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+11 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'La date de dévut de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+12 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'La date de fin de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+13 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+                'message' => [
+                    'L\'image de dévut de l\'evenement est obligatoire',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+        ],
+        []
+    );
+},
+14 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
             clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Table'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Table')),
@@ -755,7 +1117,7 @@ return [[
         [
             'stdClass' => [
                 'name' => [
-                    'evenement',
+                    'gategorie_evenement',
                 ],
             ],
         ],
@@ -766,7 +1128,7 @@ return [[
         []
     );
 },
-5 => static function () {
+15 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
             clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
@@ -801,299 +1163,7 @@ return [[
         []
     );
 },
-6 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'titre',
-                ],
-                'type' => [
-                    'string',
-                ],
-                'length' => [
-                    50,
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'Le titre de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-7 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'description',
-                ],
-                'type' => [
-                    'string',
-                ],
-                'length' => [
-                    255,
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'La description de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-8 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'lieux',
-                ],
-                'type' => [
-                    'string',
-                ],
-                'length' => [
-                    50,
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'Le lieux de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-9 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'date_debut',
-                ],
-                'type' => [
-                    'date',
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'La date de dévut de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-10 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'date_fin',
-                ],
-                'type' => [
-                    'date',
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'La date de fin de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-11 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'gat_name',
-                ],
-                'type' => [
-                    'string',
-                ],
-                'length' => [
-                    50,
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-            ],
-        ],
-        [
-            $o[0],
-        ],
-        []
-    );
-},
-12 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
-            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'image',
-                ],
-                'type' => [
-                    'string',
-                ],
-                'length' => [
-                    50,
-                ],
-                'precision' => [
-                    null,
-                ],
-                'scale' => [
-                    null,
-                ],
-                'groups' => [
-                    1 => [
-                        'Default',
-                    ],
-                ],
-                'message' => [
-                    1 => 'L\'image de dévut de l\'evenement est obligatoire',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-13 => static function () {
-    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
-        $o = [
-            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Table'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Table')),
-            clone ($p['Doctrine\\ORM\\Mapping\\Entity'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Entity')),
-        ],
-        null,
-        [
-            'stdClass' => [
-                'name' => [
-                    'gategorie_evenement',
-                ],
-            ],
-        ],
-        [
-            $o[0],
-            $o[1],
-        ],
-        []
-    );
-},
-14 => static function () {
+16 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
             clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
@@ -1130,6 +1200,56 @@ return [[
         [
             $o[0],
             $o[1],
+        ],
+        []
+    );
+},
+17 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+            clone ($p['Symfony\\Component\\Validator\\Constraints\\Regex'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\Regex')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                    [
+                        'Default',
+                    ],
+                ],
+                'pattern' => [
+                    1 => '/^[0-9]+$/',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+            $o[1],
+        ],
+        []
+    );
+},
+18 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'groups' => [
+                    [
+                        'Default',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
         ],
         []
     );

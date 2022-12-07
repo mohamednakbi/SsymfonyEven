@@ -24,7 +24,6 @@ class EvenementType extends AbstractType
     }
 
 
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -69,6 +68,11 @@ class EvenementType extends AbstractType
     
             ])   
         ;
+
+
+
+
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

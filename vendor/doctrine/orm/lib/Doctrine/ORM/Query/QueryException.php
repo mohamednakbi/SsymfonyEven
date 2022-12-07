@@ -7,12 +7,8 @@ namespace Doctrine\ORM\Query;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\Query\AST\PathExpression;
 use Exception;
+use Stringable;
 
-/**
- * Description of QueryException.
- *
- * @link    www.doctrine-project.org
- */
 class QueryException extends ORMException
 {
     /**
@@ -47,9 +43,7 @@ class QueryException extends ORMException
         return new self('[Semantical Error] ' . $message, 0, $previous);
     }
 
-    /**
-     * @return QueryException
-     */
+    /** @return QueryException */
     public static function invalidLockMode()
     {
         return new self('Invalid lock mode hint provided.');
@@ -118,16 +112,14 @@ class QueryException extends ORMException
         return new self('Invalid parameter: token ' . $key . ' is not defined in the query.');
     }
 
-    /**
-     * @return QueryException
-     */
+    /** @return QueryException */
     public static function parameterTypeMismatch()
     {
         return new self('DQL Query parameter and type numbers mismatch, but have to be exactly equal.');
     }
 
     /**
-     * @param object $pathExpr
+     * @param PathExpression $pathExpr
      *
      * @return QueryException
      */
@@ -139,7 +131,7 @@ class QueryException extends ORMException
     }
 
     /**
-     * @param string $literal
+     * @param string|Stringable $literal
      *
      * @return QueryException
      */
@@ -162,9 +154,7 @@ class QueryException extends ORMException
         );
     }
 
-    /**
-     * @return QueryException
-     */
+    /** @return QueryException */
     public static function partialObjectsAreDangerous()
     {
         return new self(
@@ -189,9 +179,7 @@ class QueryException extends ORMException
         );
     }
 
-    /**
-     * @return QueryException
-     */
+    /** @return QueryException */
     public static function associationPathInverseSideNotSupported(PathExpression $pathExpr)
     {
         return new self(
@@ -219,9 +207,7 @@ class QueryException extends ORMException
         return new self('Iterating a query with mixed results (using scalars) is not supported.');
     }
 
-    /**
-     * @return QueryException
-     */
+    /** @return QueryException */
     public static function associationPathCompositeKeyNotSupported()
     {
         return new self(

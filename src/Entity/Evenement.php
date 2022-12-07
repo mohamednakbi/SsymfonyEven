@@ -1,87 +1,90 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\EvenementRepo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
 
-/**
- * Evenement
- *
- * @ORM\Table(name="evenement")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: EvenementRepo::class)]
 class Evenement
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=50, nullable=false)
      * @Assert\NotBlank(message="Le titre de l'evenement est obligatoire")
      */
-    private $titre;
+    #[ORM\Column(length: 255)]
+
+    private ?string $titre = null;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-    * @Assert\NotBlank(message="La description de l'evenement est obligatoire")
+     * @Assert\NotBlank(message="La description de l'evenement est obligatoire")
+     */
+    #[ORM\Column(length: 255)]
+
+    private ?string $description = null;
+
+    /**
+     *
+    * @Assert\NotBlank(message="Le lieux de l'evenement est obligatoire")
 
      */
-    private $description;
+    #[ORM\Column(length: 255)]
+    private ?string $lieux = null;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="lieux", type="string", length=50, nullable=false)
-         * @Assert\NotBlank(message="Le lieux de l'evenement est obligatoire")
-
-     */
-    private $lieux;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_debut", type="date")
      * @Assert\NotBlank(message="La date de dévut de l'evenement est obligatoire")
      */
-    private $dateDebut;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+
+    private ?\DateTimeInterface $dateDebut = null;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="date_fin", type="date")
      * @Assert\NotBlank(message="La date de fin de l'evenement est obligatoire")
      */
-    private $dateFin;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+
+    private ?\DateTimeInterface $dateFin = null;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="gat_name", type="string", length=50, nullable=false)
-
      */
-    private $gatName;
+    #[ORM\Column(length: 255)]
+
+    private ?string $gatName = null;
 
 
 
 
         /**
-     * @var string
      *
-     * @ORM\Column(name="image", type="string", length=50, nullable=false)
-     * @Assert\NotBlank(message="L'image  de l'evenement est obligatoire")
+     * @Assert\NotBlank(message="L'image de dévut de l'evenement est obligatoire")
      */
-    private $image;
+    #[ORM\Column(length: 255)]
+
+    private ?string $image = null;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -97,6 +100,9 @@ class Evenement
 
         return $this;
     }
+
+
+    
 
 
 
@@ -148,7 +154,7 @@ class Evenement
         return $this->dateDebut;
     }
 
-    public function setDateDebut(?\DateTimeInterface $dateDebut): self
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -160,7 +166,7 @@ class Evenement
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): self
+    public function setDateFin(\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 

@@ -22,25 +22,18 @@ use Symfony\Component\Process\InputStream;
  */
 final class MakerTestEnvironment
 {
-    private $testDetails;
-    private $fs;
-    private $rootPath;
-    private $cachePath;
-    private $flexPath;
-    private $path;
+    private Filesystem $fs;
+    private bool|string $rootPath;
+    private string $cachePath;
+    private string $flexPath;
+    private string $path;
+    private MakerTestProcess $runnedMakerProcess;
 
-    /**
-     * @var MakerTestProcess
-     */
-    private $runnedMakerProcess;
-
-    private function __construct(MakerTestDetails $testDetails)
-    {
-        $this->testDetails = $testDetails;
+    private function __construct(
+        private MakerTestDetails $testDetails,
+    ) {
         $this->fs = new Filesystem();
-
         $this->rootPath = realpath(__DIR__.'/../../');
-
         $cachePath = $this->rootPath.'/tests/tmp/cache';
 
         if (!$this->fs->exists($cachePath)) {
@@ -299,7 +292,8 @@ final class MakerTestEnvironment
 
         file_put_contents($this->flexPath.'/.gitignore', "var/cache/\n");
 
-        MakerTestProcess::create('git init && git config user.name "symfony" && git config user.email "test@symfony.com" && git add . && git commit -a -m "first commit"',
+        // Force adding vendor/ dir to Git repo in case users exclude it in global .gitignore
+        MakerTestProcess::create('git init && git config user.name "symfony" && git config user.email "test@symfony.com" && git add . && git add vendor/ -f && git commit -a -m "first commit"',
             $this->flexPath
         )->run();
     }
@@ -324,7 +318,7 @@ final class MakerTestEnvironment
         }
 
         $contents = file_get_contents($path);
-        if (false === strpos($contents, $find)) {
+        if (!str_contains($contents, $find)) {
             if ($allowNotFound) {
                 return;
             }
@@ -404,10 +398,7 @@ echo json_encode($missingDependencies);
         ');
 
         $process = MakerTestProcess::create('php dep_runner.php', $this->path)->run();
-        $data = json_decode($process->getOutput(), true);
-        if (null === $data) {
-            throw new \Exception('Could not determine dependencies');
-        }
+        $data = json_decode($process->getOutput(), true, 512, \JSON_THROW_ON_ERROR);
 
         unlink($this->path.'/dep_builder');
         unlink($this->path.'/dep_runner.php');

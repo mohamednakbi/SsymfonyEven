@@ -5,30 +5,27 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\GategorieEvenementRepo;
+use Doctrine\DBAL\Types\Types;
 
-/**
- * GategorieEvenement
- * @ORM\Table(name="gategorie_evenement")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: GategorieEvenementRepo::class)]
+
 class GategorieEvenement
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string
+
+   
+    #[ORM\Column(length: 255)]
+
+     /**
      *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
-    * @Assert\NotBlank(message="Le nom de la Categorie est obligatoire")
+     * @Assert\NotBlank(message="Le nom de l'evenement est obligatoire")
      */
-    private $nom;
+    private ?string $nom = null;
 
     public function getId(): ?int
     {

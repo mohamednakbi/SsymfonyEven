@@ -10,6 +10,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
+
+use Knp\Bundle\SnappyBundle\Snappy;
+use Knp\Bundle\SnappyBundle\DependencyInjection;
+
+
+
+
+
+
+
+
+
 #[Route('/gategorie/evenement')]
 class GategorieEvenementController extends AbstractController
 {
@@ -81,4 +95,41 @@ class GategorieEvenementController extends AbstractController
 
         return $this->redirectToRoute('gategorie_evenement_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+
+    /**
+     * @Route("/gategorie/pdfsnappy", name="pdfsnappy",methods={"GET"} )
+     */
+    public function listCandidats(Request $request,Pdf $snappy)
+    {
+       $repo = $this->getDoctrine()->getRepository(GategorieEvenement::class);      
+       $gategorie = $repo->findAll();
+       //$snappy = $this->get("knp_snappy.pdf");
+       //$snappy->setOption("encoding", "UTF-8");
+
+       $html = $this->renderView('gategorie_evenement/list.html.twig', [
+            'gategorie'=> $gategorie,
+            'title' => "Welcome to our PDF Test"
+         ]);
+       $filename = "myfirst_pdf_with_snappy";
+
+       return new Response(
+           $snappy->getOutputFromHtml($html),
+           200,
+           array(
+               'Content-Type' => 'application/pdf',
+               'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
+           )
+       );
+}
+
+
+
+
+
+
 }

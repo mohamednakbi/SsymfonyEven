@@ -25,6 +25,33 @@ class EvenementRepo extends ServiceEntityRepository
 
 
 
+    public function find_Nb_Rec_Par_Status($gatName){
+
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'SELECT DISTINCT  count(r.id) FROM   App\Entity\Evenement r  where r.gatName = :gatName'
+        );
+        $query->setParameter('gatName', $gatName);
+        return $query->getResult();
+    }
+
+
+
+
+
+
+    
+    public function mise_a_joure()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+           DELETE FROM `evenement` WHERE date_fin < CURRENT_DATE ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+    }
+
+                                                
 
     
 }

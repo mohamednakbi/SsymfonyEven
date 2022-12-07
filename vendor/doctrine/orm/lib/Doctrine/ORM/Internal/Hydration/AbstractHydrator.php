@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Doctrine\ORM\Internal\Hydration;
 
+use BackedEnum;
 use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\ForwardCompatibility\Result as ForwardCompatibilityResult;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -27,6 +28,7 @@ use function count;
 use function end;
 use function get_debug_type;
 use function in_array;
+use function is_array;
 use function sprintf;
 
 /**
@@ -421,6 +423,10 @@ abstract class AbstractHydrator
                     $type     = $cacheKeyInfo['type'];
                     $value    = $type->convertToPHPValue($value, $this->_platform);
 
+                    if ($value !== null && isset($cacheKeyInfo['enumType'])) {
+                        $value = $this->buildEnum($value, $cacheKeyInfo['enumType']);
+                    }
+
                     $rowData['newObjects'][$objIndex]['class']           = $cacheKeyInfo['class'];
                     $rowData['newObjects'][$objIndex]['args'][$argIndex] = $value;
                     break;
@@ -429,7 +435,12 @@ abstract class AbstractHydrator
                     $type  = $cacheKeyInfo['type'];
                     $value = $type->convertToPHPValue($value, $this->_platform);
 
+                    if ($value !== null && isset($cacheKeyInfo['enumType'])) {
+                        $value = $this->buildEnum($value, $cacheKeyInfo['enumType']);
+                    }
+
                     $rowData['scalars'][$fieldName] = $value;
+
                     break;
 
                 //case (isset($cacheKeyInfo['isMetaColumn'])):
@@ -456,6 +467,10 @@ abstract class AbstractHydrator
                     $rowData['data'][$dqlAlias][$fieldName] = $type
                         ? $type->convertToPHPValue($value, $this->_platform)
                         : $value;
+
+                    if ($rowData['data'][$dqlAlias][$fieldName] !== null && isset($cacheKeyInfo['enumType'])) {
+                        $rowData['data'][$dqlAlias][$fieldName] = $this->buildEnum($rowData['data'][$dqlAlias][$fieldName], $cacheKeyInfo['enumType']);
+                    }
 
                     if ($cacheKeyInfo['isIdentifier'] && $value !== null) {
                         $id[$dqlAlias]                .= '|' . $value;
@@ -536,6 +551,7 @@ abstract class AbstractHydrator
                     'fieldName'    => $fieldName,
                     'type'         => Type::getType($fieldMapping['type']),
                     'dqlAlias'     => $ownerMap,
+                    'enumType'     => $this->_rsm->enumMappings[$key] ?? null,
                 ];
 
                 // the current discriminator value must be saved in order to disambiguate fields hydration,
@@ -565,6 +581,7 @@ abstract class AbstractHydrator
                     'argIndex'             => $mapping['argIndex'],
                     'objIndex'             => $mapping['objIndex'],
                     'class'                => new ReflectionClass($mapping['className']),
+                    'enumType'             => $this->_rsm->enumMappings[$key] ?? null,
                 ];
 
             case isset($this->_rsm->scalarMappings[$key], $this->_hints[LimitSubqueryWalker::FORCE_DBAL_TYPE_CONVERSION]):
@@ -572,6 +589,7 @@ abstract class AbstractHydrator
                     'fieldName' => $this->_rsm->scalarMappings[$key],
                     'type'      => Type::getType($this->_rsm->typeMappings[$key]),
                     'dqlAlias'  => '',
+                    'enumType'  => $this->_rsm->enumMappings[$key] ?? null,
                 ];
 
             case isset($this->_rsm->scalarMappings[$key]):
@@ -579,6 +597,7 @@ abstract class AbstractHydrator
                     'isScalar'  => true,
                     'fieldName' => $this->_rsm->scalarMappings[$key],
                     'type'      => Type::getType($this->_rsm->typeMappings[$key]),
+                    'enumType'  => $this->_rsm->enumMappings[$key] ?? null,
                 ];
 
             case isset($this->_rsm->metaMappings[$key]):
@@ -670,5 +689,22 @@ abstract class AbstractHydrator
         }
 
         $this->_em->getUnitOfWork()->registerManaged($entity, $id, $data);
+    }
+
+    /**
+     * @param mixed                    $value
+     * @param class-string<BackedEnum> $enumType
+     *
+     * @return BackedEnum|array<BackedEnum>
+     */
+    private function buildEnum($value, string $enumType)
+    {
+        if (is_array($value)) {
+            return array_map(static function ($value) use ($enumType): BackedEnum {
+                return $enumType::from($value);
+            }, $value);
+        }
+
+        return $enumType::from($value);
     }
 }

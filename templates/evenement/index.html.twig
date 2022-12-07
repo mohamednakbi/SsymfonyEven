@@ -344,6 +344,7 @@
                 <th>DateFin</th>
                 <th>GatName</th>
                  <th>Image</th>
+
                 <th>actions</th>
             </tr>
         </thead>
@@ -362,6 +363,8 @@
                 <td>
                     <a class="btn btn-success pull-right" href="{{ path('evenement_show', {'id': evenement.id}) }}">show</a>
                     <a class="btn btn-primary pull-right" href="{{ path('evenement_edit', {'id': evenement.id}) }}">edit</a>
+                             <a class="btn btn-warning pull-right" href="{{ path('showmapevenement', {'id': evenement.id}) }}">Show Map📍</a>
+
                 </td>
             </tr>
         {% else %}
@@ -373,6 +376,12 @@
     </table>
 
     <a class="btn btn-primary pull-right" href="{{ path('evenement_new') }}">Create new</a>
+        <a class="btn btn-warning pull-right" href="{{ path('statmohamed') }}">Show Statistique</a>
+            <a class="btn btn-success pull-right" href="{{ path('pdf0') }}">Exporter PDF</button></a>
+
+
+
+
 {% endblock %}
 
 
@@ -426,7 +435,7 @@
     <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
     <!-- Include Flashy default partial -->
 
-  </main>
+
 </body>
 
 </html>

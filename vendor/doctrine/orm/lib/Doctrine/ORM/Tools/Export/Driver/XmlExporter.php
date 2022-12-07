@@ -73,7 +73,7 @@ class XmlExporter extends AbstractExporter
             $discriminatorColumnXml->addAttribute('type', $metadata->discriminatorColumn['type']);
 
             if (isset($metadata->discriminatorColumn['length'])) {
-                $discriminatorColumnXml->addAttribute('length', $metadata->discriminatorColumn['length']);
+                $discriminatorColumnXml->addAttribute('length', (string) $metadata->discriminatorColumn['length']);
             }
         }
 
@@ -82,7 +82,7 @@ class XmlExporter extends AbstractExporter
 
             foreach ($metadata->discriminatorMap as $value => $className) {
                 $discriminatorMappingXml = $discriminatorMapXml->addChild('discriminator-mapping');
-                $discriminatorMappingXml->addAttribute('value', $value);
+                $discriminatorMappingXml->addAttribute('value', (string) $value);
                 $discriminatorMappingXml->addAttribute('class', $className);
             }
         }
@@ -339,7 +339,7 @@ class XmlExporter extends AbstractExporter
                     }
 
                     if (isset($inverseJoinColumn['nullable'])) {
-                        $inverseJoinColumnXml->addAttribute('nullable', $inverseJoinColumn['nullable']);
+                        $inverseJoinColumnXml->addAttribute('nullable', $inverseJoinColumn['nullable'] ? 'true' : 'false');
                     }
 
                     if (isset($inverseJoinColumn['orderBy'])) {
@@ -365,7 +365,7 @@ class XmlExporter extends AbstractExporter
                     }
 
                     if (isset($joinColumn['nullable'])) {
-                        $joinColumnXml->addAttribute('nullable', $joinColumn['nullable']);
+                        $joinColumnXml->addAttribute('nullable', $joinColumn['nullable'] ? 'true' : 'false');
                     }
                 }
             }
@@ -458,9 +458,7 @@ class XmlExporter extends AbstractExporter
         $this->generateEntityListenerXml($metadata, $entityListenersXmlMap, $entityListenersXml);
     }
 
-    /**
-     * @param mixed[] $entityListenersXmlMap
-     */
+    /** @param mixed[] $entityListenersXmlMap */
     private function generateEntityListenerXml(
         ClassMetadataInfo $metadata,
         array $entityListenersXmlMap,

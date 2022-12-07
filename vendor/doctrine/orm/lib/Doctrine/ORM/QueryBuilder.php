@@ -6,6 +6,7 @@ namespace Doctrine\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\Query\QueryExpressionVisitor;
@@ -27,6 +28,7 @@ use function is_string;
 use function key;
 use function reset;
 use function sprintf;
+use function str_starts_with;
 use function strpos;
 use function strrpos;
 use function substr;
@@ -37,13 +39,19 @@ use function substr;
  */
 class QueryBuilder
 {
-    /* The query types. */
+    /** @deprecated */
     public const SELECT = 0;
+
+    /** @deprecated */
     public const DELETE = 1;
+
+    /** @deprecated */
     public const UPDATE = 2;
 
-    /* The builder states. */
+    /** @deprecated */
     public const STATE_DIRTY = 0;
+
+    /** @deprecated */
     public const STATE_CLEAN = 1;
 
     /**
@@ -104,9 +112,9 @@ class QueryBuilder
     /**
      * The index of the first result to retrieve.
      *
-     * @var int|null
+     * @var int
      */
-    private $_firstResult = null;
+    private $_firstResult = 0;
 
     /**
      * The maximum number of results to retrieve.
@@ -195,7 +203,9 @@ class QueryBuilder
     }
 
     /**
-     * @return bool TRUE if the query results are enable for second level cache, FALSE otherwise.
+     * Are the query results enabled for second level cache?
+     *
+     * @return bool
      */
     public function isCacheable()
     {
@@ -224,9 +234,7 @@ class QueryBuilder
         return $this->cacheRegion;
     }
 
-    /**
-     * @return int
-     */
+    /** @return int */
     public function getLifetime()
     {
         return $this->lifetime;
@@ -271,11 +279,20 @@ class QueryBuilder
     /**
      * Gets the type of the currently built query.
      *
+     * @deprecated If necessary, track the type of the query being built outside of the builder.
+     *
      * @return int
      * @psalm-return self::SELECT|self::DELETE|self::UPDATE
      */
     public function getType()
     {
+        Deprecation::trigger(
+            'doctrine/dbal',
+            'https://github.com/doctrine/orm/pull/9945',
+            'Relying on the type of the query being built is deprecated.'
+            . ' If necessary, track the type of the query being built outside of the builder.'
+        );
+
         return $this->_type;
     }
 
@@ -292,11 +309,19 @@ class QueryBuilder
     /**
      * Gets the state of this query builder instance.
      *
+     * @deprecated The builder state is an internal concern.
+     *
      * @return int Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
      * @psalm-return self::STATE_*
      */
     public function getState()
     {
+        Deprecation::trigger(
+            'doctrine/dbal',
+            'https://github.com/doctrine/orm/pull/9945',
+            'Relying on the query builder state is deprecated as it is an internal concern.'
+        );
+
         return $this->_state;
     }
 
@@ -606,7 +631,7 @@ class QueryBuilder
     /**
      * Gets a (previously set) query parameter of the query being constructed.
      *
-     * @param mixed $key The key (index or name) of the bound parameter.
+     * @param string|int $key The key (index or name) of the bound parameter.
      *
      * @return Parameter|null The value of the bound parameter.
      */
@@ -634,11 +659,7 @@ class QueryBuilder
      */
     public function setFirstResult($firstResult)
     {
-        if ($firstResult !== null) {
-            $firstResult = (int) $firstResult;
-        }
-
-        $this->_firstResult = $firstResult;
+        $this->_firstResult = (int) $firstResult;
 
         return $this;
     }
@@ -832,8 +853,8 @@ class QueryBuilder
      *         ->setParameter('user_id', 1);
      * </code>
      *
-     * @param string $delete The class/type whose instances are subject to the deletion.
-     * @param string $alias  The class/type alias used in the constructed query.
+     * @param string|null $delete The class/type whose instances are subject to the deletion.
+     * @param string|null $alias  The class/type alias used in the constructed query.
      *
      * @return $this
      */
@@ -843,6 +864,14 @@ class QueryBuilder
 
         if (! $delete) {
             return $this;
+        }
+
+        if (! $alias) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/issues/9733',
+                'Omitting the alias is deprecated and will throw an exception in Doctrine 3.0.'
+            );
         }
 
         return $this->add('from', new Expr\From($delete, $alias));
@@ -859,8 +888,8 @@ class QueryBuilder
      *         ->where('u.id = ?2');
      * </code>
      *
-     * @param string $update The class/type whose instances are subject to the update.
-     * @param string $alias  The class/type alias used in the constructed query.
+     * @param string|null $update The class/type whose instances are subject to the update.
+     * @param string|null $alias  The class/type alias used in the constructed query.
      *
      * @return $this
      */
@@ -870,6 +899,14 @@ class QueryBuilder
 
         if (! $update) {
             return $this;
+        }
+
+        if (! $alias) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/issues/9733',
+                'Omitting the alias is deprecated and will throw an exception in Doctrine 3.0.'
+            );
         }
 
         return $this->add('from', new Expr\From($update, $alias));
@@ -885,9 +922,9 @@ class QueryBuilder
      *         ->from('User', 'u');
      * </code>
      *
-     * @param string $from    The class name.
-     * @param string $alias   The alias of the class.
-     * @param string $indexBy The index for the from.
+     * @param string      $from    The class name.
+     * @param string      $alias   The alias of the class.
+     * @param string|null $indexBy The index for the from.
      *
      * @return $this
      */
@@ -960,6 +997,7 @@ class QueryBuilder
      * @param string|null                                $conditionType The condition type constant. Either ON or WITH.
      * @param string|Expr\Comparison|Expr\Composite|null $condition     The condition for the join.
      * @param string|null                                $indexBy       The index for the join.
+     * @psalm-param Expr\Join::ON|Expr\Join::WITH|null $conditionType
      *
      * @return $this
      */
@@ -986,6 +1024,7 @@ class QueryBuilder
      * @param string|null                                $conditionType The condition type constant. Either ON or WITH.
      * @param string|Expr\Comparison|Expr\Composite|null $condition     The condition for the join.
      * @param string|null                                $indexBy       The index for the join.
+     * @psalm-param Expr\Join::ON|Expr\Join::WITH|null $conditionType
      *
      * @return $this
      */
@@ -1026,6 +1065,7 @@ class QueryBuilder
      * @param string|null                                $conditionType The condition type constant. Either ON or WITH.
      * @param string|Expr\Comparison|Expr\Composite|null $condition     The condition for the join.
      * @param string|null                                $indexBy       The index for the join.
+     * @psalm-param Expr\Join::ON|Expr\Join::WITH|null $conditionType
      *
      * @return $this
      */
@@ -1276,7 +1316,7 @@ class QueryBuilder
      * Replaces any previously specified orderings, if any.
      *
      * @param string|Expr\OrderBy $sort  The ordering expression.
-     * @param string              $order The ordering direction.
+     * @param string|null         $order The ordering direction.
      *
      * @return $this
      */
@@ -1291,7 +1331,7 @@ class QueryBuilder
      * Adds an ordering to the query results.
      *
      * @param string|Expr\OrderBy $sort  The ordering expression.
-     * @param string              $order The ordering direction.
+     * @param string|null         $order The ordering direction.
      *
      * @return $this
      */
@@ -1334,7 +1374,7 @@ class QueryBuilder
             foreach ($criteria->getOrderings() as $sort => $order) {
                 $hasValidAlias = false;
                 foreach ($allAliases as $alias) {
-                    if (strpos($sort . '.', $alias . '.') === 0) {
+                    if (str_starts_with($sort . '.', $alias . '.')) {
                         $hasValidAlias = true;
                         break;
                     }
@@ -1350,7 +1390,7 @@ class QueryBuilder
 
         // Overwrite limits only if they was set in criteria
         $firstResult = $criteria->getFirstResult();
-        if ($firstResult !== null) {
+        if ($firstResult > 0) {
             $this->setFirstResult($firstResult);
         }
 
@@ -1437,9 +1477,7 @@ class QueryBuilder
         return $dql;
     }
 
-    /**
-     * @psalm-param array<string, mixed> $options
-     */
+    /** @psalm-param array<string, mixed> $options */
     private function getReducedDQLQueryPart(string $queryPartName, array $options = []): string
     {
         $queryPart = $this->getDQLPart($queryPartName);

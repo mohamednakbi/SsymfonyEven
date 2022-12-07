@@ -12,8 +12,10 @@ use Doctrine\ORM\Cache;
 class QueryCacheKey extends CacheKey
 {
     /**
+     * Cache key lifetime
+     *
      * @readonly Public only for performance reasons, it should be considered immutable.
-     * @var int Cache key lifetime
+     * @var int
      */
     public $lifetime;
 
@@ -32,9 +34,7 @@ class QueryCacheKey extends CacheKey
      */
     public $timestampKey;
 
-    /**
-     * @psalm-param Cache::MODE_* $cacheMode
-     */
+    /** @psalm-param Cache::MODE_* $cacheMode */
     public function __construct(
         string $cacheId,
         int $lifetime = 0,

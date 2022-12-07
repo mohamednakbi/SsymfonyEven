@@ -18,6 +18,7 @@ use Doctrine\DBAL\Connection;
 use Psr\Log\LogLevel;
 use Symfony\Bundle\FullStack;
 use Symfony\Component\Asset\Package;
+use Symfony\Component\Cache\Adapter\DoctrineAdapter;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -1078,7 +1079,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('default_redis_provider')->defaultValue('redis://localhost')->end()
                         ->scalarNode('default_memcached_provider')->defaultValue('memcached://localhost')->end()
                         ->scalarNode('default_doctrine_dbal_provider')->defaultValue('database_connection')->end()
-                        ->scalarNode('default_pdo_provider')->defaultValue($willBeAvailable('doctrine/dbal', Connection::class) ? 'database_connection' : null)->end()
+                        ->scalarNode('default_pdo_provider')->defaultValue($willBeAvailable('doctrine/dbal', Connection::class) && class_exists(DoctrineAdapter::class) ? 'database_connection' : null)->end()
                         ->arrayNode('pools')
                             ->useAttributeAsKey('name')
                             ->prototype('array')
@@ -1120,7 +1121,7 @@ class Configuration implements ConfigurationInterface
                                     ->booleanNode('public')->defaultFalse()->end()
                                     ->scalarNode('default_lifetime')
                                         ->info('Default lifetime of the pool')
-                                        ->example('"600" for 5 minutes expressed in seconds, "PT5M" for five minutes expressed as ISO 8601 time interval, or "5 minutes" as a date expression')
+                                        ->example('"300" for 5 minutes expressed in seconds, "PT5M" for five minutes expressed as ISO 8601 time interval, or "5 minutes" as a date expression')
                                     ->end()
                                     ->scalarNode('provider')
                                         ->info('Overwrite the setting from the default provider for this adapter.')
@@ -1226,16 +1227,20 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('log_level')
                                 ->info('The level of log message. Null to let Symfony decide.')
                                 ->validate()
-                                    ->ifTrue(function ($v) use ($logLevels) { return !\in_array($v, $logLevels); })
+                                    ->ifTrue(function ($v) use ($logLevels) { return null !== $v && !\in_array($v, $logLevels, true); })
                                     ->thenInvalid(sprintf('The log level is not valid. Pick one among "%s".', implode('", "', $logLevels)))
                                 ->end()
                                 ->defaultNull()
                             ->end()
                             ->scalarNode('status_code')
-                                ->info('The status code of the response. Null to let Symfony decide.')
+                                ->info('The status code of the response. Null or 0 to let Symfony decide.')
+                                ->beforeNormalization()
+                                    ->ifTrue(function ($v) { return 0 === $v; })
+                                    ->then(function ($v) { return null; })
+                                ->end()
                                 ->validate()
-                                    ->ifTrue(function ($v) { return $v < 100 || $v > 599; })
-                                    ->thenInvalid('The log level is not valid. Pick a value between 100 and 599.')
+                                    ->ifTrue(function ($v) { return null !== $v && ($v < 100 || $v > 599); })
+                                    ->thenInvalid('The status code is not valid. Pick a value between 100 and 599.')
                                 ->end()
                                 ->defaultNull()
                             ->end()
@@ -1270,12 +1275,15 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                     ->addDefaultsIfNotSet()
+                    ->validate()
+                        ->ifTrue(static function (array $config) { return $config['enabled'] && !$config['resources']; })
+                        ->thenInvalid('At least one resource must be defined.')
+                    ->end()
                     ->fixXmlConfig('resource')
                     ->children()
                         ->arrayNode('resources')
                             ->normalizeKeys(false)
                             ->useAttributeAsKey('name')
-                            ->requiresAtLeastOneElement()
                             ->defaultValue(['default' => [class_exists(SemaphoreStore::class) && SemaphoreStore::isSupported() ? 'semaphore' : 'flock']])
                             ->beforeNormalization()
                                 ->ifString()->then(function ($v) { return ['default' => $v]; })
@@ -1860,7 +1868,7 @@ class Configuration implements ConfigurationInterface
                     ->integerNode('max_delay')->defaultValue(0)->min(0)->info('Max time in ms that a retry should ever be delayed (0 = infinite)')->end()
                     ->floatNode('jitter')->defaultValue(0.1)->min(0)->max(1)->info('Randomness in percent (between 0 and 1) to apply to the delay')->end()
                 ->end()
-            ;
+        ;
     }
 
     private function addMailerSection(ArrayNodeDefinition $rootNode, callable $enableIfStandalone)
